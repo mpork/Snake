@@ -1,11 +1,11 @@
-package main;
+package snake;
 
 import java.util.ListIterator;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import main.Main.Direction;
+import snake.Main.Direction;
 
 public class Methods {
 

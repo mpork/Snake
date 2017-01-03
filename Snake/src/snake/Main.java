@@ -1,16 +1,25 @@
-package main;
+package snake;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
+import javafx.geometry.HPos;
+import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -100,19 +109,58 @@ public class Main extends Application {
 
 		return root;
 	}
-
-	//The game area
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		
+		Font font = Font.font(24);
+		primaryStage.setResizable(false);
+
+		Button btnStart = new Button("New Game");
+		btnStart.setFont(font);
+		btnStart.setOnAction(event -> Methods.startGame());
+
+		Button btnControls = new Button("Controls");
+		btnControls.setFont(font);
+		//btnControls.setOnAction(event -> options());
+
+		Button btnExit = new Button("Exit");
+		btnExit.setFont(font);
+		btnExit.setOnAction(event -> Platform.exit());
+
+		GridPane grid = new GridPane();
+		grid.setAlignment(Pos.CENTER);
+
+		GridPane.setHalignment(btnControls, HPos.CENTER);
+		GridPane.setValignment(btnControls, VPos.CENTER);
+		GridPane.setHalignment(btnExit, HPos.CENTER);
+		GridPane.setValignment(btnExit, VPos.CENTER);
+
+		grid.add(btnStart, 1, 1);
+		//btnStart.setAlignment(Pos.CENTER);
+		grid.add(btnControls, 1, 3);
+		//btnControls.setAlignment(Pos.CENTER);
+		grid.add(btnExit, 1, 5);
+		//btnExit.setAlignment(Pos.CENTER);
+
+		Scene scene = new Scene(grid, 640, 480);
+		scene.setFill(Color.BLACK);
+
+		primaryStage.setScene(scene);
+		primaryStage.show();
+		
+	}
+	
+	//The game area
+	public void game(Stage gameStage) throws Exception {
 		Scene scene = new Scene(game());
 		scene.setFill(Color.BLACK);
 
 		keyPressed(scene);
 
-		primaryStage.setTitle("Snake Game 2016");
-		primaryStage.setResizable(false);
-		primaryStage.setScene(scene);
-		primaryStage.show();
+		gameStage.setTitle("Snake Game 2016");
+		gameStage.setResizable(false);
+		gameStage.setScene(scene);
+		gameStage.show();
 		Methods.startGame();
 
 	}
@@ -137,13 +185,13 @@ public class Main extends Application {
 				if (direction != Direction.LEFT)
 					direction = Direction.RIGHT;
 				break;
+			default:
+				break;
 
 			}
 
 		});
 	}
 
-	public static void main(String[] args) {
-		launch(args);
-	}
+	
 }
