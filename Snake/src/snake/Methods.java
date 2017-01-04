@@ -1,18 +1,19 @@
 package snake;
 
 import java.util.ListIterator;
+
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import snake.Main.Direction;
 
 public class Methods {
 
 	// Method to randomize the placement of food
 	public static void foodRandom(Rectangle food) {
-		food.setTranslateX((int) (Math.random() * Main.WinHeight) / Main.blocksize * Main.blocksize);
-		food.setTranslateY((int) (Math.random() * Main.WinWidth) / Main.blocksize * Main.blocksize);
+		food.setTranslateX((int) (Math.random() * Main.WinWidth) / Main.blocksize * Main.blocksize);
+		food.setTranslateY((int) (Math.random() * Main.WinHeight) / Main.blocksize * Main.blocksize);
+		System.out.println(food.getTranslateX() + "; " + food.getTranslateY());
 		food.setFill(Color.RED);
 		foodReset(food, Main.snake);
 	}
@@ -43,7 +44,7 @@ public class Methods {
 		for (Node current : Main.snake) {
 			if (current != tail && tail.getTranslateX() == current.getTranslateX()
 					&& tail.getTranslateY() == current.getTranslateY()) {
-				restartGame();
+				Main.restartGame();
 				break;
 			}
 		}
@@ -51,37 +52,16 @@ public class Methods {
 				|| tail.getTranslateY() >= Main.WinHeight) {
 			// System.out.println(tail.getTranslateX() + " " +
 			// tail.getTranslateY());
-			Methods.restartGame();
+			Main.restartGame();
 		}
 	}
 
-	public static void stopGame() {
-		Main.running = false;
-		Main.timeline.stop();
-		Main.snake.clear();
-	}
-
-	public static void startGame() {
-		Main.direction = Direction.RIGHT;
-		Rectangle tail = new Rectangle(Main.blocksize, Main.blocksize);
-		tail.setFill(Color.WHITE);
-		
-		Main.snake.add(tail);
-		Main.timeline.play();
-		Main.running = true;
-	}
-
-	public static void restartGame() {
-		stopGame();
-		startGame();
-	}
-
+	//Adding extra piece to the snake after eating
 	public static void addLength(double tailX, double tailY) {
 		Rectangle extra = new Rectangle(Main.blocksize, Main.blocksize);
 		extra.setTranslateX(tailX);
 		extra.setTranslateY(tailY);
 		extra.setFill(Color.WHITE);
-
 		Main.snake.add(extra);
 	}
 
