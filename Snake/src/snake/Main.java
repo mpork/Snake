@@ -38,20 +38,15 @@ public class Main extends Application {
 	Font font = Font.font(24); // Font size for buttons, labels and texts
 
 	private enum Direction {
-		/**
-		 * Moving up
-		 */
 		UP, DOWN, LEFT, RIGHT
 	}
 
-	/**
-	 * Declaring various variables for future use
-	 */
 	private static Direction direction = Direction.RIGHT; // Default moving
 															// direction
 	public static boolean running = false; // Boolean to keep track of whether
 											// the game is running or not
-	private boolean moved = false; // Boolean to keep track whether the snake has
+	private boolean moved = false; // Boolean to keep track whether the snake
+									// has
 									// moved or not
 	String newSpeed = new String(Double.toString(speed)); // Making double to
 															// string to use it
@@ -169,7 +164,7 @@ public class Main extends Application {
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
 		grid.setVgap(20);
-		
+
 		grid.add(txtControls, 2, 1);
 		grid.add(txtCtrlDesc, 1, 2);
 		grid.add(txtCtrlKeys, 3, 2);
@@ -185,7 +180,7 @@ public class Main extends Application {
 
 	/**
 	 * Whole game's logic controls movement, food and snake's placement
-	 *
+	 * 
 	 * @return Pane root, that shows the snake and food
 	 */
 	public Parent game() {
