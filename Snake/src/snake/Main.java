@@ -7,7 +7,6 @@ import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
-import javafx.geometry.VPos;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -26,38 +25,40 @@ import javafx.util.Duration;
 /**
  * Snake game, hardwork did pay off, game works Did use some help from
  * https://www.youtube.com/watch?v=nK6l1uVlunc
- * 
+ *
  * @author Siim Oselein
  * @version %I%, %G%
  */
 public class Main extends Application {
-	
-	/**
-	 * Making it unified so that all parts are the same size
-	 */
-	public static int blocksize = 10;
-	public static int WinWidth = 640;
-	public static int WinHeight = 480;
-	public double speed = 0.1;
-	Font font = Font.font(24);
 
-	public enum Direction {
+	public static int BLOCKSIZE = 20; // Food and snake parts size
+	public static int WIN_WIDTH = 640; // Window width
+	public static int WIN_HEIGHT = 480; // Windows height
+	public double speed = 0.1; // Time after frames are renewed
+	Font font = Font.font(24); // Font size for buttons, labels and texts
+
+	private enum Direction {
 		/**
 		 * Moving up
 		 */
-		UP, DOWN, RIGHT, LEFT
+		UP, DOWN, LEFT, RIGHT
 	}
 
 	/**
 	 * Declaring various variables for future use
 	 */
-	public static Direction direction = Direction.RIGHT;
-	public static boolean running = false;
-	public boolean moved = false;
-	public static Timeline timeline = new Timeline();
+	private static Direction direction = Direction.RIGHT; // Default moving
+															// direction
+	public static boolean running = false; // Boolean to keep track of whether
+											// the game is running or not
+	private boolean moved = false; // Boolean to keep track whether the snake has
+									// moved or not
+	String newSpeed = new String(Double.toString(speed)); // Making double to
+															// string to use it
+															// in switch
+	private static Timeline timeline = new Timeline();
 	public static ObservableList<Node> snake;
 	String Difficulty = new String("Medium");
-	String newSpeed = new String(Double.toString(speed));
 
 	/**
 	 * Starts up the whole game, setting some constants
@@ -94,10 +95,9 @@ public class Main extends Application {
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
 		grid.setVgap(20);
+
 		GridPane.setHalignment(btnControls, HPos.CENTER);
-		GridPane.setValignment(btnControls, VPos.CENTER);
 		GridPane.setHalignment(btnExit, HPos.CENTER);
-		GridPane.setValignment(btnExit, VPos.CENTER);
 
 		grid.add(btnStart, 1, 1);
 		grid.add(btnControls, 1, 2);
@@ -112,7 +112,7 @@ public class Main extends Application {
 
 	/**
 	 * Options menu to see controls and change difficulty
-	 * 
+	 *
 	 * @param primaryStage
 	 *            The whole window, adding scenes to it
 	 * @throws Exception
@@ -151,9 +151,9 @@ public class Main extends Application {
 
 		Text txtControls = new Text("Controls");
 		txtControls.setFont(font);
-		Text txtCtrlDesc = new Text("Move up:\nMove down:\nMove left:\nMove right:\nPause:\nReturn to menu");
+		Text txtCtrlDesc = new Text("Move up:\nMove left:\nMove down:\nMove right:\nPause:\nReturn to menu");
 		txtCtrlDesc.setFont(font);
-		Text txtCtrlKeys = new Text("W; UP\nS; DOWN\nA; LEFT\nD; RIGHT\nSPACE\nESC");
+		Text txtCtrlKeys = new Text("W; UP\nA; LEFT\nS; DOWN\nD; RIGHT\nSPACE\nESC");
 		txtCtrlKeys.setFont(font);
 
 		Button btnBack = new Button("Back");
@@ -169,7 +169,7 @@ public class Main extends Application {
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
 		grid.setVgap(20);
-
+		
 		grid.add(txtControls, 2, 1);
 		grid.add(txtCtrlDesc, 1, 2);
 		grid.add(txtCtrlKeys, 3, 2);
@@ -185,13 +185,13 @@ public class Main extends Application {
 
 	/**
 	 * Whole game's logic controls movement, food and snake's placement
-	 * 
+	 *
 	 * @return Pane root, that shows the snake and food
 	 */
 	public Parent game() {
 
 		Pane root = new Pane();
-		root.setPrefSize(WinWidth, WinHeight);
+		root.setPrefSize(WIN_WIDTH, WIN_HEIGHT);
 
 		Group snakeBody = new Group();
 		snake = snakeBody.getChildren();
@@ -199,7 +199,7 @@ public class Main extends Application {
 		/**
 		 * Creating Rectangle food, calling foodRandom() method
 		 */
-		Rectangle food = new Rectangle(blocksize, blocksize);
+		Rectangle food = new Rectangle(BLOCKSIZE, BLOCKSIZE);
 		Methods.foodRandom(food);
 
 		/**
@@ -226,18 +226,18 @@ public class Main extends Application {
 			switch (direction) {
 			case UP:
 				tail.setTranslateX(snake.get(0).getTranslateX());
-				tail.setTranslateY(snake.get(0).getTranslateY() - blocksize);
+				tail.setTranslateY(snake.get(0).getTranslateY() - BLOCKSIZE);
 				break;
 			case DOWN:
 				tail.setTranslateX(snake.get(0).getTranslateX());
-				tail.setTranslateY(snake.get(0).getTranslateY() + blocksize);
+				tail.setTranslateY(snake.get(0).getTranslateY() + BLOCKSIZE);
 				break;
 			case RIGHT:
-				tail.setTranslateX(snake.get(0).getTranslateX() + blocksize);
+				tail.setTranslateX(snake.get(0).getTranslateX() + BLOCKSIZE);
 				tail.setTranslateY(snake.get(0).getTranslateY());
 				break;
 			case LEFT:
-				tail.setTranslateX(snake.get(0).getTranslateX() - blocksize);
+				tail.setTranslateX(snake.get(0).getTranslateX() - BLOCKSIZE);
 				tail.setTranslateY(snake.get(0).getTranslateY());
 				break;
 			}
@@ -245,8 +245,7 @@ public class Main extends Application {
 			moved = true;
 
 			/**
-			 * Adding tail as first to the snake list, making it basically the
-			 * head
+			 * Adding tail as first to the snake list, making it the head
 			 */
 			if (toRemove)
 				snake.add(0, tail);
@@ -278,7 +277,7 @@ public class Main extends Application {
 	/**
 	 * Sets the prerequisites to start the game scene, gets called out when new
 	 * game button is pressed
-	 * 
+	 *
 	 * @param gameStage
 	 */
 	public void game(Stage gameStage) {
@@ -291,7 +290,8 @@ public class Main extends Application {
 	}
 
 	/**
-	 * Declaring different keypresses and their actions
+	 * Declaring different key presses and their actions
+	 *
 	 * @param scene
 	 *            The current scene that is active
 	 * @param primaryStage
@@ -354,7 +354,7 @@ public class Main extends Application {
 			default:
 				break;
 			}
-			moved = false;
+			moved = true;
 		});
 	}
 
@@ -371,14 +371,16 @@ public class Main extends Application {
 	 * Starts game, changing variables and spawning snake
 	 */
 	public static void startGame() {
-		Main.direction = Main.Direction.RIGHT;
-		Rectangle tail = new Rectangle(Main.blocksize, Main.blocksize);
+		direction = Direction.RIGHT;
+		Rectangle tail = new Rectangle(BLOCKSIZE, BLOCKSIZE);
 		tail.setFill(Color.WHITE);
+		tail.setStroke(Color.GREEN);
+		tail.setStrokeWidth(4);
 
-		Main.snake.add(tail);
+		snake.add(tail);
 
-		Main.timeline.play();
-		Main.running = true;
+		timeline.play();
+		running = true;
 	}
 
 	/**
@@ -391,11 +393,11 @@ public class Main extends Application {
 
 	/**
 	 * Makes the game's background black
-	 * 
+	 *
 	 * @return backGround
 	 */
 	public Rectangle background() {
-		Rectangle backGround = new Rectangle(Main.WinWidth, Main.WinHeight);
+		Rectangle backGround = new Rectangle(WIN_WIDTH, WIN_HEIGHT);
 		backGround.setFill(Color.BLACK);
 		return backGround;
 	}

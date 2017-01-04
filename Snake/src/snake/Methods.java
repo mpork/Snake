@@ -14,9 +14,9 @@ public class Methods {
 	 * @param food food A Rectangle that presents food for the snake
 	 */
 	public static void foodRandom(Rectangle food) {
-		food.setTranslateX((int) (Math.random() * Main.WinWidth) / Main.blocksize * Main.blocksize);
-		food.setTranslateY((int) (Math.random() * Main.WinHeight) / Main.blocksize * Main.blocksize);
-		food.setFill(Color.WHITE);
+		food.setTranslateX((int) (Math.random() * Main.WIN_WIDTH) / Main.BLOCKSIZE * Main.BLOCKSIZE);
+		food.setTranslateY((int) (Math.random() * Main.WIN_HEIGHT) / Main.BLOCKSIZE * Main.BLOCKSIZE);
+		food.setFill(Color.RED);
 		foodReset(food, Main.snake);
 	}
 
@@ -56,8 +56,8 @@ public class Methods {
 				break;
 			}
 		}
-		if (tail.getTranslateX() < 0 || tail.getTranslateX() >= Main.WinWidth || tail.getTranslateY() < 0
-				|| tail.getTranslateY() >= Main.WinHeight) {
+		if (tail.getTranslateX() < 0 || tail.getTranslateX() >= Main.WIN_WIDTH || tail.getTranslateY() < 0
+				|| tail.getTranslateY() >= Main.WIN_HEIGHT) {
 			Main.restartGame();
 		}
 	}
@@ -68,13 +68,15 @@ public class Methods {
 	 * @param tailY Actually snake's head location on Y coordinates
 	 */
 	public static void addLength(double tailX, double tailY) {
-		Rectangle extra = new Rectangle(Main.blocksize, Main.blocksize);
+		Rectangle extra = new Rectangle(Main.BLOCKSIZE, Main.BLOCKSIZE);
 		extra.setTranslateX(tailX);
 		extra.setTranslateY(tailY);
 		extra.setFill(Color.WHITE);
+		extra.setStroke(Color.GREEN);
+		extra.setStrokeWidth(4);
 		Main.snake.add(extra);
 	}
-	
+
 	/**
 	 * Checks if @param tail is at the same X and Y coordinates as @param food, calls out foodRandom() and addLength() if necessary
 	 * @param tail A part of @param snake that actually represents snake's head
@@ -87,7 +89,7 @@ public class Methods {
 			Methods.foodRandom(food);
 			Methods.addLength(tailX, tailY);
 		}
-		
+
 	}
-	
+
 }

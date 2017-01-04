@@ -1,2 +1,3 @@
 # Snake Game 2016
-#V0.8
+# Made as a project
+#V1.0
